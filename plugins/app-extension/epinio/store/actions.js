@@ -20,8 +20,8 @@ export default {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     opt.httpsAgent = new https.Agent({ rejectUnauthorized: false });
     opt.headers = {
-      'x-api-host':    '',
-      Authorization: ''
+      'x-api-host':    'https://epinio.192.168.0.3.omg.howdoi.website', // TODO: RC FIX fetch from cluster
+      Authorization: 'Basic Y2ZiZWY2NDBhOGRlZmJjNTpkNWJmYWM5ODMxMWU5MTgw' // TODO: RC AUTH fetch from cluster
     };
 
     return this.$axios(opt).then((res) => {
