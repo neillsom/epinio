@@ -24,7 +24,7 @@ export default {
   ],
 
   data() {
-    return { 'org-options': [1, 2, 3] };
+    return { sampleOptions: ['sample', 'sample-1', 'sample-2'] };
   },
 
   computed: {
@@ -62,17 +62,25 @@ export default {
       @finish="save"
       @error="e=>errors = e"
     >
-      <LabeledInput
-        label="Application Name"
-        :mode="mode"
-        :required="true"
-      />
-      <LabeledSelect
-        v-model="org-options[1]"
-        :options="org-options"
-        label="Org Name"
-        :mode="mode"
-      />
+      <div class="mb-20">
+        <div class="row">
+          <div class="col span-6 mb-10">
+            <LabeledInput
+              label="Application Name"
+              :mode="mode"
+              :required="true"
+            />
+          </div>
+          <div class="col span-6 mb-10">
+            <LabeledSelect
+              v-model="sampleOptions[0]"
+              :options="sampleOptions"
+              label="Org Name"
+              :mode="mode"
+            />
+          </div>
+        </div>
+      </div>
     </CruResource>
   </div>
 </template>
