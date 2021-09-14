@@ -10,35 +10,52 @@ export default {
     CruResource,
     Loading,
     LabeledInput,
-    LabeledSelect
+    LabeledSelect,
+
   },
   props: {
+    value: {
+      type:    Object,
+      default: () => {
+        return {};
+      }
+    },
     mode: {
       type:    String,
-      default: 'edit'
+      default: 'create'
     },
-
   },
   mixins:     [
     CreateEditView
   ],
-
   data() {
-    return { sampleOptions: ['sample', 'sample-1', 'sample-2'] };
-  },
+    return {
 
+      name:            '',
+      org:             ['workspace', 'workspace-1', 'workspace-2'],
+    };
+  },
   computed: {
     valid() {
       return false;
     },
   },
-
   methods: {
-    save() {
-      // stage
-      // create app
-      // redirect apps list
-      // show vm manager w/ staging logs
+    async save() {
+      try {
+        await this.$store.dispatch('epinio/request', {
+          url:    `v1/orgs/workspace/applications/sample-verbose-1/stage`,
+          method: 'post',
+          data:   {
+            name: this.name,
+            org:  this.org
+          },
+        });
+
+        return true;
+      } catch (e) {
+        return false;
+      }
     }
   }
 };
@@ -48,9 +65,10 @@ export default {
   <div>
     <Loading v-if="!value" />
     <div v-else>
-      Mode: {{ mode }}<br>
-      Value: {{ JSON.stringify(value) }}<br>
-      originalValue: {{ JSON.stringify(originalValue) }}<br>
+      <p>Mode: {{ mode }} </p>
+      <p>Value: {{ JSON.stringify(value) }} </p>
+      <p>originalValue: {{ JSON.stringify(originalValue) }} </p>
+      <br><br>
     </div>
 
     <CruResource
@@ -66,6 +84,7 @@ export default {
         <div class="row">
           <div class="col span-6 mb-10">
             <LabeledInput
+              v-model="name"
               label="Application Name"
               :mode="mode"
               :required="true"
@@ -73,8 +92,8 @@ export default {
           </div>
           <div class="col span-6 mb-10">
             <LabeledSelect
-              v-model="sampleOptions[0]"
-              :options="sampleOptions"
+              v-model="org"
+              :options="org[0]"
               label="Org Name"
               :mode="mode"
             />
